@@ -17,7 +17,7 @@ def get_unique_industries(path):
     unique_industries = set()
 
     for industry in read(path):
-        if industry["industry"] != '':
+        if industry["industry"] != "":
             unique_industries.add(industry["industry"])
     return unique_industries
 
@@ -30,7 +30,7 @@ def get_max_salary(path):
     salaries = set()
 
     for salary in read(path):
-        if salary["max_salary"].isdigit() and salary["max_salary"] != '':
+        if salary["max_salary"].isdigit() and salary["max_salary"] != "":
             salaries.add(int(salary["max_salary"]))
     return max(salaries)
 
@@ -39,7 +39,7 @@ def get_min_salary(path):
     salaries = set()
 
     for salary in read(path):
-        if salary["min_salary"].isdigit() and salary["min_salary"] != '':
+        if salary["min_salary"].isdigit() and salary["min_salary"] != "":
             salaries.add(int(salary["min_salary"]))
     return min(salaries)
 
@@ -53,22 +53,15 @@ def matches_salary_range(job, salary):
         raise ValueError("min_salary is greather than max_salary")
     elif type(salary) != int:
         raise ValueError("salary must be an integer")
-    return job['min_salary'] <= salary <= job['max_salary']
+    return job["min_salary"] <= salary <= job["max_salary"]
 
 
 def filter_by_salary_range(jobs, salary):
-    """Filters a list of jobs by salary range
-
-    Parameters
-    ----------
-    jobs : list
-        The jobs to be filtered
-    salary : int
-        The salary to be used as filter
-
-    Returns
-    -------
-    lt
-        Jobs whose salary range contains `salary`
-    """
-    return []
+    list = []
+    for job in jobs:
+        try:
+            if matches_salary_range(job, salary):
+                list.append(job)
+        except ValueError:
+            pass
+    return list
